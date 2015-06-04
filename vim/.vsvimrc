@@ -1,0 +1,14 @@
+
+" https://github.com/jaredpar/VsVim/wiki/VsVim-Nonstandard-Behavior
+
+nmap <C-O> :vsc View.NavigateBackward<CR>
+nmap <C-I> :vsc View.NavigateForward<CR>
+
+
+nmap <C-]> :vsc Edit.GoToDefinition<CR>
+
+
+
+
+
+
