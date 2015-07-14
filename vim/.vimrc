@@ -6,6 +6,7 @@ syntax on
 set relativenumber
 set number
 
+set virtualedit=onemore
 
 
 " ----------------------------------------------------------------------------------------------------------------- "
@@ -40,6 +41,10 @@ noremap <C-Q>       <C-V>
 
 " set 'selection', 'selectmode', 'mousemodel' and 'keymodel' for MS-Windows
 behave mswin
+
+" 'behave mswin' causes Visual Mode selection to work in a non-vim way, so
+" I'm setting it back to the 'right' way
+set selection=inclusive
 
 " backspace and cursor keys wrap to previous/next line
 set backspace=indent,eol,start whichwrap+=<,>,[,]
