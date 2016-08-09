@@ -1,0 +1,7 @@
+>cmd -new_console -new_console:t:"CMD"
+
+powershell -new_console:d:"C:\_VSO\DRRS\BRANCHES\DEV" -new_console:t:"PS - DRRS/DEV"
+
+cmd -new_console:d:"C:\_VSO\DRRS\BRANCHES\DEV" -new_console:t:"CMD - DRRS/DEV"
+
+cmd -new_console:d:"C:\Users\egglestonjg\SkyDrive\VoiceCoding" -new_console:t:"CMD - VoiceCoding"
