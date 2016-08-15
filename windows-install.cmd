@@ -29,3 +29,5 @@ call mklink "%CONEMU_DIR%\ConEmu.xml" "%APP_DIR%\ConEmu\ConEmu.xml"
 
 if exist "%CONEMU_DIR%\conemu_startup.txt" del "%CONEMU_DIR%\conemu_startup.txt"
 call mklink "%CONEMU_DIR%\conemu_startup.txt" "%APP_DIR%\ConEmu\conemu_startup.txt"
+
+pause
