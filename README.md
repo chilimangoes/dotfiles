@@ -13,7 +13,10 @@ curl -fsSL https://raw.githubusercontent.com/chilimangoes/dotfiles/master/linux-
 Paste the following command into a PowerShell terminal running as admin:
 
 ```
-$p="$env:TEMP\windows-install.cmd"; curl.exe -fsSL "https://raw.githubusercontent.com/chilimangoes/dotfiles/master/windows-install.cmd" -o $p; if ($LASTEXITCODE -eq 0) { & cmd.exe /c $p }
+$p = Join-Path $env:TEMP 'windows-install.cmd'; `
+$u = 'https://raw.githubusercontent.com/chilimangoes/dotfiles/master/windows-install.cmd'; `
+Invoke-WebRequest -Uri $u -OutFile $p; `
+if ($?) { & cmd.exe /c $p }
 ```
 
 Or, download and run [windows-install.cmd](./windows-install.cmd) from a terminal as admin.
