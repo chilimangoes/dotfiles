@@ -1,26 +1,35 @@
 @echo off
+setlocal EnableExtensions EnableDelayedExpansion
 
-set GITHUB_REPO=https://github.com/chilimangoes/dotfiles.git
+set "GITHUB_REPO=https://github.com/chilimangoes/dotfiles.git"
 
-@if not exist "%HOME%" @set HOME=%HOMEDRIVE%%HOMEPATH%
-@if not exist "%HOME%" @set HOME=%USERPROFILE%
+if not exist "%HOME%" set "HOME=%HOMEDRIVE%%HOMEPATH%"
+if not exist "%HOME%" set "HOME=%USERPROFILE%"
 
-@set APP_DIR=%HOME%\dotfiles
-IF NOT EXIST "%APP_DIR%" (
-    call git clone --recursive %GITHUB_REPO% "%APP_DIR%"
-) ELSE (
-	@set ORIGINAL_DIR=%CD%
-    echo updating dotfiles
-    chdir /d "%APP_DIR%" 
-	call git pull
-    chdir /d "%ORIGINAL_DIR%"
-	call cd "%APP_DIR%" 
+set "APP_DIR=%HOME%\dotfiles"
+if not exist "%APP_DIR%" (
+    git clone "%GITHUB_REPO%" "%APP_DIR%"
+) else (
+    echo Updating dotfiles
+    git -C "%APP_DIR%" pull --ff-only
 )
 
-if exist "%HOME%\.vimrc" del "%HOME%\.vimrc"
-call mklink "%HOME%\.vimrc" "%APP_DIR%\vim\.vimrc"
-
-if exist "%HOME%\.vsvimrc" del "%HOME%\.vsvimrc"
-call mklink "%HOME%\.vsvimrc" "%APP_DIR%\vim\.vsvimrc"
+call :link_dotfile "%APP_DIR%\vim\.vimrc" "%HOME%\.vimrc"
+call :link_dotfile "%APP_DIR%\vim\.vsvimrc" "%HOME%\.vsvimrc"
+call :link_dotfile "%APP_DIR%\git\.gitconfig-aliases" "%HOME%\.gitconfig-aliases"
+git config --global include.path "$HOME/.gitconfig-aliases"
 
 pause
+goto :eof
+
+:link_dotfile
+    set "SOURCE=%~1"
+    set "DESTINATION=%~2"
+
+    if exist "%DESTINATION%" (
+        for /f %%I in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMddHHmmss"') do set "STAMP=%%I"
+        move /Y "%DESTINATION%" "%DESTINATION%.backup-!STAMP!"
+    )
+
+    mklink "%DESTINATION%" "%SOURCE%"
+    exit /b
