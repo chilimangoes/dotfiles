@@ -1,0 +1,5 @@
+[alias]
+    pf = push --force-with-lease
+    fp = fetch --prune
+    rbdev = rebase origin/dev
+    rbmain = rebase origin/main
