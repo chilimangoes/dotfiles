@@ -22,4 +22,26 @@ link_dotfile() {
 
 link_dotfile "$APP_DIR/vim/.vimrc" "$HOME/.vimrc"
 link_dotfile "$APP_DIR/git/.gitconfig-aliases" "$HOME/.gitconfig-aliases"
+link_dotfile "$APP_DIR/bash/.bash_aliases" "$HOME/.bash_aliases"
 git config --global include.path "$HOME/.gitconfig-aliases"
+
+ensure_bash_aliases_loaded() {
+    local bashrc="$HOME/.bashrc"
+    local marker="# Load dotfiles Bash helpers."
+
+    if [[ ! -f "$bashrc" ]]; then
+        touch "$bashrc"
+    fi
+
+    if ! grep -Fqx "$marker" "$bashrc"; then
+        cat >> "$bashrc" <<'EOF'
+
+# Load dotfiles Bash helpers.
+if [[ -f "$HOME/.bash_aliases" ]]; then
+    source "$HOME/.bash_aliases"
+fi
+EOF
+    fi
+}
+
+ensure_bash_aliases_loaded
