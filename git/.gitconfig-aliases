@@ -6,3 +6,4 @@
     rbdev = rebase origin/dev
     rbmain = rebase origin/main
     sn = pull --rebase
+    st = status
