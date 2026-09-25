@@ -19,7 +19,6 @@ call :link_dotfile "%APP_DIR%\vim\.vsvimrc" "%HOME%\.vsvimrc"
 call :link_dotfile "%APP_DIR%\git\.gitconfig-aliases" "%HOME%\.gitconfig-aliases"
 git config --global include.path "$HOME/.gitconfig-aliases"
 
-pause
 goto :eof
 
 :link_dotfile
