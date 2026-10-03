@@ -14,10 +14,12 @@ fi
 
 link_dotfile() {
     local source=$1 destination=$2
-    if [[ -e "$destination" || -L "$destination" ]]; then
-        mv "$destination" "$destination.backup-$(date +%Y%m%d%H%M%S)"
+    if [[ -L "$destination" ]]; then
+        rm -- "$destination"
+    elif [[ -e "$destination" ]]; then
+        mv -- "$destination" "$destination.backup-$(date +%Y%m%d%H%M%S)"
     fi
-    ln -s "$source" "$destination"
+    ln -s -- "$source" "$destination"
 }
 
 link_dotfile "$APP_DIR/vim/.vimrc" "$HOME/.vimrc"

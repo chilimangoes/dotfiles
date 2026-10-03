@@ -26,9 +26,14 @@ goto :eof
     set "DESTINATION=%~2"
 
     if exist "%DESTINATION%" (
-        for /f %%I in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMddHHmmss"') do set "STAMP=%%I"
-        move /Y "%DESTINATION%" "%DESTINATION%.backup-!STAMP!"
+        for %%I in ("%DESTINATION%") do set "ATTRIBUTES=%%~aI"
+        if not "!ATTRIBUTES:l=!"=="!ATTRIBUTES!" (
+            del "%DESTINATION%" || exit /b 1
+        ) else (
+            for /f %%I in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMddHHmmss"') do set "STAMP=%%I"
+            move /Y "%DESTINATION%" "%DESTINATION%.backup-!STAMP!" || exit /b 1
+        )
     )
 
-    mklink "%DESTINATION%" "%SOURCE%"
+    mklink "%DESTINATION%" "%SOURCE%" || exit /b 1
     exit /b
