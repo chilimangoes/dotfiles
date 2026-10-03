@@ -6,10 +6,10 @@ GITHUB_REPO=https://github.com/chilimangoes/dotfiles.git
 APP_DIR="$HOME/dotfiles"
 
 if [[ ! -d "$APP_DIR" ]]; then
-    git clone "$GITHUB_REPO" "$APP_DIR"
+    git clone "$GITHUB_REPO" "$APP_DIR" || exit 1
 else
     echo "Updating dotfiles"
-    git -C "$APP_DIR" pull --ff-only
+    git -C "$APP_DIR" pull --ff-only || exit 1
 fi
 
 link_dotfile() {

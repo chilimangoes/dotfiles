@@ -8,16 +8,16 @@ if not exist "%HOME%" set "HOME=%USERPROFILE%"
 
 set "APP_DIR=%HOME%\dotfiles"
 if not exist "%APP_DIR%" (
-    git clone "%GITHUB_REPO%" "%APP_DIR%"
+    git clone "%GITHUB_REPO%" "%APP_DIR%" || exit /b 1
 ) else (
     echo Updating dotfiles
-    git -C "%APP_DIR%" pull --ff-only
+    git -C "%APP_DIR%" pull --ff-only || exit /b 1
 )
 
 call :link_dotfile "%APP_DIR%\vim\.vimrc" "%HOME%\.vimrc"
 call :link_dotfile "%APP_DIR%\vim\.vsvimrc" "%HOME%\.vsvimrc"
 call :link_dotfile "%APP_DIR%\git\.gitconfig-aliases" "%HOME%\.gitconfig-aliases"
-git config --global include.path "$HOME/.gitconfig-aliases"
+git config --global include.path "~/.gitconfig-aliases"
 
 goto :eof
 
