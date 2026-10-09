@@ -7,3 +7,13 @@
     rbmain = rebase origin/main
     sn = pull --rebase
     st = status
+    sync = "!f() { \
+        git fetch --prune origin || return; \
+        git show-ref --verify --quiet refs/remotes/origin/dev || return 1; \
+        git for-each-ref --merged=refs/remotes/origin/dev --format=\"%(refname:lstrip=2) %(upstream:remotename) %(upstream:track,nobracket) %(worktreepath)\" refs/heads | \
+        while read -r branch remote state worktree; do \
+            case \"$branch\" in dev|main|master) continue ;; esac; \
+            [ \"$remote\" = origin ] && [ \"$state\" = gone ] && [ -z \"$worktree\" ] || continue; \
+            git branch -D -- \"$branch\" || return; \
+        done; \
+    }; f"
